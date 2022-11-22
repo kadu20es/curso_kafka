@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.time.Instant;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +17,6 @@ public class NewOrderMain {
 
         for (var i = 0; i < 100; i++) {
 
-
             var key = UUID.randomUUID().toString();
             var value = key + "-67523,5364";
             var record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
@@ -26,9 +25,10 @@ public class NewOrderMain {
                     ex.printStackTrace();
                     return;
                 }
-                System.out.println("[" + Instant.now() + "]" + " sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
+                String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:ms").format(data.timestamp());
+                System.out.println("[" + date + "][Success! Sending message \"" + data.topic() + "\"][partition " + data.partition() + "][Offset " + data.offset() + "]");
             };
-            var email = "Thank yout for your order!";
+            var email = "Thank you for your order!";
             var orderN = "Order nº 45457";
             var emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, orderN);
             //var fraudDetector = new ProducerRecord<>("ECOMMERCE_FRAUD_DETECTOR", orderN, orderN);

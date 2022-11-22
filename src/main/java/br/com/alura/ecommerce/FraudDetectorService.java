@@ -14,14 +14,8 @@ public class FraudDetectorService {
     }
 
     private void parse(ConsumerRecord<String, String> record) {
-        System.out.println("---------------------------------------------------------");
         String data = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:ms").format(record.timestamp());
-        System.out.println(data);
-        System.out.println("Processando new order. Checking for fraud");
-        System.out.println(record.key());  // chave
-        System.out.println(record.value()); // valor da mensagem
-        System.out.println(record.partition()); // partição onde foi enviada
-        System.out.println(record.offset()); // offset da mensagem
+        System.out.println("[" + data + "][Processing new order. Checking for fraud " + record.key() + "][Value " + record.value() + "][Record partition:  " + record.partition() + "][Offset:  " + record.offset() + "]");
         try {
             Thread.sleep(0);
         } catch (InterruptedException e) {
