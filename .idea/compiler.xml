@@ -9,5 +9,8 @@
         <module name="ecommerce" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="curso_kafka2" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>
