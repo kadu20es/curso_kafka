@@ -8,10 +8,11 @@ public class EmailService {
 
     public static void main(String[] args) {
         var emailService = new EmailService();
-        var service = new KafkaService(EmailService.class.getSimpleName(),
+        try (var service = new KafkaService(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
-                 emailService::parse); // method reference - passando uma referência para a função (quero que você invoce essa função para cada record)
-        service.run();
+                 emailService::parse)) { // method reference - passando uma referência para a função (quero que você invoce essa função para cada record)
+            service.run();
+        }
     }
 
     private void parse(ConsumerRecord<String, String> record) {
