@@ -1,20 +1,29 @@
 package br.com.alura.ecommerce;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        try (var dispatcher = new KafkaDispatcher()) {
+        try (var orderDispatcher = new KafkaDispatcher<Order>()) {
+            try (var mailDispatcher = new KafkaDispatcher<String>()) {
 
-            for (var i = 0; i < 100; i++) {
+                for (var i = 0; i < 10; i++) {
 
-                var key = UUID.randomUUID().toString();
-                var value = key + "-67523,5364";
-                dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
+                    var userId = UUID.randomUUID().toString();
+                    //var orderId = Double.toString(Math.random() * (1000000 - 2) + 2);
+                    var orderId = Integer.toString(ThreadLocalRandom.current().nextInt(1, 10000000+1));
+                    var amount = BigDecimal.valueOf(Math.random() * 5000 + 1).setScale(2, RoundingMode.FLOOR);
+                    var order = new Order(orderId, userId, amount);
 
-                var email = "Thank you for your order! We are processing your order!";
-                dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER",userId, order);
+
+                    var email = "Thank you for your order! We are processing your order!";
+                    mailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
+                }
             }
         }
     }
