@@ -1,8 +1,12 @@
 package br.com.alura.ecommerce;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EmailService {
 
@@ -10,7 +14,9 @@ public class EmailService {
         var emailService = new EmailService();
         try (var service = new KafkaService(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
-                 emailService::parse)) { // method reference - passando uma referência para a função (quero que você invoce essa função para cada record)
+                 emailService::parse,
+                String.class,
+                Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()))){ // method reference - passando uma referência para a função (quero que você invoce essa função para cada record)
             service.run();
         }
     }
