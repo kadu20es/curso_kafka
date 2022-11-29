@@ -5,7 +5,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 public class EmailService {
