@@ -9,17 +9,31 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class KafkaService implements Closeable {
 
     private final KafkaConsumer<String, String> consumer;
     private final ConsumerFunction parse;
 
+    // usado pelo NewOrderMain
     KafkaService(String groupId, String topic, ConsumerFunction parse) {
-        this.parse = parse;
-        this.consumer = new KafkaConsumer<>(properties(groupId));
+        this(groupId, parse);
         this.consumer.subscribe(Collections.singletonList(topic));
 
+    }
+
+    // usado pelo LogService
+    KafkaService(String groupId, Pattern topic, ConsumerFunction parse) {
+        this(groupId, parse);
+        this.consumer.subscribe(topic);
+
+    }
+
+    // usado pelos dois construtores (o de NewOrderMain e LogService em "this(groupId, parse);"
+    private KafkaService(String groupId, ConsumerFunction parse) {
+        this.parse = parse;
+        this.consumer = new KafkaConsumer<>(properties(groupId));
     }
 
     static Properties properties(String groupId){
@@ -39,7 +53,7 @@ public class KafkaService implements Closeable {
         while(true) {
             var records = consumer.poll(Duration.ofMillis(100));
             if (!records.isEmpty()) {
-                System.out.println("Encontrei " + records.count() + " registros");
+                //System.out.println("Encontrei " + records.count() + " registros");
                 for (var record : records) {
                     parse.consume(record);
                 }

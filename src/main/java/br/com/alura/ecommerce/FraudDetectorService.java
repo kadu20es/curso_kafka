@@ -16,7 +16,7 @@ public class FraudDetectorService {
 
     private void parse(ConsumerRecord<String, String> record) {
         String data = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:ms").format(record.timestamp());
-        System.out.println("[" + data + "][Processing new order. Checking for fraud " + record.key() + "][Value " + record.value() + "][Record partition:  " + record.partition() + "][Offset:  " + record.offset() + "]");
+        System.out.println("[" + data + "][Processing new order. Checking for fraud.][Value: " + record.value() + "][Record partition:  " + record.partition() + "][Offset:  " + record.offset() + "]");
         try {
             Thread.sleep(0);
         } catch (InterruptedException e) {
