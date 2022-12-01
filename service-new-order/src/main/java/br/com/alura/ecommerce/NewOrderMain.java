@@ -11,7 +11,7 @@ public class NewOrderMain {
         try (var orderDispatcher = new KafkaDispatcher<Order>()) {
             try (var emailDispatcher = new KafkaDispatcher<String>()) {
 
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 30; i++) {
 
                     var userId = UUID.randomUUID().toString();
                     var orderId = Integer.toString(ThreadLocalRandom.current().nextInt(1, 10000000+1));
