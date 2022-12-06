@@ -34,7 +34,8 @@ public class FraudDetectorService {
 
         var order = record.value();
         if (isaFraud(order)){
-            // figindo que a fraude acontece quando o valor for >= 4500
+            /* figindo que a fraude acontece quando o valor for >= 4500
+             se aprovado, loga e envia para um tópico e esse tópico será lido pelo service-log */
             System.out.println("Order is a fraud!!!!! " + order);
             orderDispatcher.send(
                     "ECOMMERCE_ORDER_REJECTED",
