@@ -3,31 +3,32 @@ package br.com.alura.ecommerce;
 import java.math.BigDecimal;
 
 public class Order {
-    final String orderId;
-    final String userId;
+    final String orderId, email;
     final BigDecimal amount;
 
 
-    public Order(String orderId, String userId, BigDecimal amount) {
+    public Order(String orderId, String email, BigDecimal amount) {
         this.orderId = orderId;
-        this.userId = userId;
         this.amount = amount;
+        this.email = email;
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+
 
     @Override
     public String toString() {
         return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", amount=" + amount +
+                "orderId: '" + orderId + '\'' +
+                ", email: " + email  + '\'' +
+                ", amount: " + amount +
                 '}';
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 }

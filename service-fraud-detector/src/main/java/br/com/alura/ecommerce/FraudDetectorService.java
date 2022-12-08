@@ -38,14 +38,12 @@ public class FraudDetectorService {
              se aprovado, loga e envia para um tópico e esse tópico será lido pelo service-log */
             System.out.println("Order is a fraud!!!!! " + order);
             orderDispatcher.send(
-                    "ECOMMERCE_ORDER_REJECTED",
-                    order.getUserId(),
+                    "ECOMMERCE_ORDER_REJECTED", order.getEmail(),
                     order);
         } else {
             System.out.println("Order approved! " + order);
             orderDispatcher.send(
-                    "ECOMMERCE_ORDER_APPROVED",
-                    order.getUserId(),
+                    "ECOMMERCE_ORDER_APPROVED", order.getEmail(),
                     order);
         }
         
